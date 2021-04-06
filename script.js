@@ -1,7 +1,6 @@
 //here you can change colors
 const color1 = "lightgreen";
 
-
 //all the parts of the image 
 const imageParts = document.getElementById("layer1").children;
 
@@ -39,7 +38,10 @@ function showPart(clickedBtn) {
 let colorButton = document.createElement("button");
 colorButton.innerText = "a"; //here you can change the button text
 colorButton.addEventListener("click", () => {
-    document.getElementById("part8").style.fill = color1 //here you can change what part of the snail gets colored
+    let lettuce = document.getElementById("part8");
+    if (window.getComputedStyle(lettuce).fill != "none")
+    {lettuce.style.fill = "none"}
+    else {lettuce.style.fill = color1}
 });
 section.appendChild(colorButton);
 
