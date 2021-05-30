@@ -28,12 +28,16 @@ button {
     padding: 0.5em;
 }
 
+
+.animal0 > button {background-color: auto;}
+.animal1 > button {background-color: beige;}
+
 /* animation for the spinning eye */
 .spin {
     transform-origin: 50% 50%;
     transform-box: fill-box;
-    -webkit-animation: rotate 5s alternate infinite ease-in-out;
-    animation: rotate 5s alternate infinite ease-in-out;
+    -webkit-animation: rotate 5s infinite linear;
+    animation: rotate 5s infinite linear;
 }
 
 @keyframes rotate {
