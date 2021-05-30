@@ -3,6 +3,7 @@ const color1 = "lightgreen";
 
 //all the parts of the image 
 const imageParts = document.getElementById("layer1").children;
+const imageParts2 = document.getElementById("layer3").children;
 
 //the section that the buttons are put in
 const section = document.querySelector("section");
