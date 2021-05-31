@@ -47,11 +47,11 @@ function addSpecialButtons(container, line1, line2, color, animation) {
     let colorButton = document.createElement("button");
     colorButton.innerText = "a"; //here you can change the button text
     colorButton.addEventListener("click", () => {
-        let lettuce = document.getElementById(line1);
-        if (window.getComputedStyle(lettuce).fill != "none") {
-            lettuce.style.fill = "none"
+        let partToColor = document.getElementById(line1);
+        if (window.getComputedStyle(partToColor).fill != "none") {
+            partToColor.style.fill = "none"
         } else {
-            lettuce.style.fill = color
+            partToColor.style.fill = color
         }
     });
     //adds a button that adds an animation when clicked
