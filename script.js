@@ -21,9 +21,9 @@ for (let i = 0; i < layers.length; i++) { //for every layer, repeat the followin
         button.classList.add("animal" + i + "line" + j); //give it a class (same as the line)
         buttonContainer.appendChild(button); //put the button in the span-element   
     }
-    if (i == 0) //i is 0 on the snail-layer
+    if (layers[i].id == "layer1") //if it's the the snail
     {
-        addSpecialButtons(buttonContainer, "part8", "part6", color1, "spin");//add the animation-buttons
+         addSpecialButtons(buttonContainer, "path899", "path885", color1, "spin");//add the animation-buttons
     } 
     section.appendChild(buttonContainer); //put the span-element inside the section-element
 }
