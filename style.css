@@ -3,6 +3,9 @@
     visibility: hidden
 }
 
+/* pressed down buttons */
+.on {box-shadow: rgba(0, 0, 0, 0.5) inset 2px 2px 4px;}
+
 html * {margin: 0;
     padding: 0;}
 
@@ -26,11 +29,10 @@ svg {
 
 button {
     padding: 0.5em;
+    border: 1px solid black
 }
 
-
-.animal0 > button {background-color: auto;}
-.animal1 > button {background-color: beige;}
+span:nth-child(odd)>button {background-color: cornsilk}; /*odd animals buttons */
 
 /* animation for the spinning eye */
 .spin {

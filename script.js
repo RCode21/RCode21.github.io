@@ -15,10 +15,10 @@ for (let i = 0; i < layers.length; i++) { //for every layer, repeat the followin
     buttonContainer.classList.add("animal" + i); //add class to span (just for styling)
     const lines = layers[i].children; //find all lines in the layer
     for (let j = 0; j < lines.length; j++) { //then for every line, repeat the following instructions:
-        lines[j].classList.add("hidden", "animal" + i + "line" + j) //give it two classes (one that hides it) 
+        lines[j].classList.add("hidden", "a" + i + "l" + j) //give it two classes (one that hides it) 
         let button = document.createElement("button"); //make a button
         button.innerText = j + 1; //write a number on the button
-        button.classList.add("animal" + i + "line" + j); //give it a class (same as the line)
+        button.classList.add("a" + i + "l" + j); //give it a class (same as the line)
         buttonContainer.appendChild(button); //put the button in the span-element   
     }
     if (layers[i].id == "layer1") //if it's the the snail
@@ -36,6 +36,7 @@ section.addEventListener("click", (e) => {
 //makes the lines show up or hide
 function showPart(clicked) {
     for (let i = 0; i < allLines.length; i++) {
+        clicked.toggle("on");//changes button look
         if (allLines[i].classList.contains(clicked)) {
             allLines[i].classList.toggle("hidden");
         }
@@ -45,7 +46,7 @@ function showPart(clicked) {
 function addSpecialButtons(container, line1, line2, color, animation) { 
     //adds a buttons that changes color of a part when clicked
     let colorButton = document.createElement("button");
-    colorButton.innerText = "a"; //here you can change the button text
+    colorButton.innerText = "¤"; //here you can change the button text
     colorButton.addEventListener("click", () => {
         let partToColor = document.getElementById(line1);
         if (window.getComputedStyle(partToColor).fill != "none") {
@@ -55,10 +56,11 @@ function addSpecialButtons(container, line1, line2, color, animation) {
         }
     });
     //adds a button that adds an animation when clicked
-    let animationButton = document.createElement("button");
-    animationButton.innerText = "c"
+    if(animation)
+    {let animationButton = document.createElement("button");
+    animationButton.innerText = "¤"
     animationButton.addEventListener("click", () => {
         document.getElementById(line2).classList.toggle(animation)
     })
-    container.append(animationButton, colorButton);
+    container.append(animationButton, colorButton);}
 }
