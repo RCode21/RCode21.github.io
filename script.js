@@ -1,5 +1,6 @@
 //here you can change colors
 const color1 = "lightgreen";
+const color2 = "pink";
 
 //all the layers
 const layers = document.querySelectorAll("g");
@@ -24,6 +25,10 @@ for (let i = 0; i < layers.length; i++) { //for every layer, repeat the followin
     if (layers[i].id == "layer1") //if it's the the snail
     {
         addSpecialButtons(buttonContainer, "path899", "path885", color1, "spin"); //add the animation-buttons
+    }
+    if (layers[i].id == "layer3") //if it's the the sloth
+    {
+        addSpecialButtons(buttonContainer, "path1827", "path1744", color2, "wave"); //add the animation-buttons
     }
     section.appendChild(buttonContainer); //put the span-element inside the section-element
 }
