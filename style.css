@@ -36,12 +36,10 @@ button {
     border: 1px solid black
 }
 
+/*odd animals buttons */
 span:nth-child(odd)>button {
     background-color: cornsilk
 }
-
-;
-/*odd animals buttons */
 
 /* animation for the spinning eye */
 .spin {
@@ -67,18 +65,18 @@ span:nth-child(odd)>button {
 .wave {
     transform-origin: 50% 50%;
     transform-box: fill-box;
-    -webkit-animation: rotate 5s infinite linear;
-    animation: wave 7s infinite alternate ease-in-out;
+    -webkit-animation: wave 7s infinite linear;
+    animation: wave 7s infinite linear;
 }
 
 @keyframes wave {
     0% {
         transform: rotate(0deg);
     }
-    25% {
-        transform: rotate(5deg);
+    15% {
+        transform: rotate(8deg);
     }
-    75% {
+    65% {
         transform: rotate(-15deg);
     }
     100% {

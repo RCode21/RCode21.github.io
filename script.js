@@ -13,7 +13,7 @@ const section = document.querySelector("section");
 //adds classes and makes buttons
 for (let i = 0; i < layers.length; i++) { //for every layer, repeat the following instructions:
     let buttonContainer = document.createElement("span"); //make a span element
-    buttonContainer.classList.add("animal" + i); //add class to span (just for styling)
+    buttonContainer.classList.add(layers[i].id); //add class to span (id of the layer it shows)
     const lines = layers[i].children; //find all lines in the layer
     for (let j = 0; j < lines.length; j++) { //then for every line, repeat the following instructions:
         lines[j].classList.add("hidden", "a" + i + "l" + j) //give it two classes (one that hides it) 
@@ -22,16 +22,16 @@ for (let i = 0; i < layers.length; i++) { //for every layer, repeat the followin
         button.classList.add("a" + i + "l" + j); //give it a class (same as the line)
         buttonContainer.appendChild(button); //put the button in the span-element   
     }
-    if (layers[i].id == "layer1") //if it's the the snail
-    {
-        addSpecialButtons(buttonContainer, "path899", "path885", color1, "spin"); //add the animation-buttons
-    }
-    if (layers[i].id == "layer3") //if it's the the sloth
-    {
-        addSpecialButtons(buttonContainer, "path1827", "path1744", color2, "wave"); //add the animation-buttons
-    }
     section.appendChild(buttonContainer); //put the span-element inside the section-element
 }
+
+//adds the extra animation buttons for selected animals
+const snailButtonContainer = document.querySelector(".layer1");
+const slothButtonContainer = document.querySelector(".layer3");
+addColorButton(snailButtonContainer, "path899", color1);
+addAnimationButton(snailButtonContainer, "path885", "spin");
+addColorButton(slothButtonContainer, "path1827", color2);
+addAnimationButton(slothButtonContainer, "path1744", "wave");
 
 //detects clicks on buttons and shows or hides lines
 section.addEventListener("click", (e) => {
@@ -43,25 +43,27 @@ section.addEventListener("click", (e) => {
     e.target.classList.toggle("on"); //changes button look
 });
 
-function addSpecialButtons(container, line1, line2, color, animation) {
-    //adds a buttons that changes color of a part when clicked
+//adds a button that adds an animation when clicked
+function addAnimationButton(container, line, animation) {
+    let animationButton = document.createElement("button");
+    animationButton.innerText = "¤"
+    animationButton.addEventListener("click", () => {
+        document.getElementById(line).classList.toggle(animation)
+    })
+    container.appendChild(animationButton);
+}
+
+//adds a buttons that changes color of a part when clicked
+function addColorButton(container, line, color) {
     let colorButton = document.createElement("button");
     colorButton.innerText = "¤"; //here you can change the button text
     colorButton.addEventListener("click", () => {
-        let partToColor = document.getElementById(line1);
+        let partToColor = document.getElementById(line);
         if (window.getComputedStyle(partToColor).fill != "none") {
             partToColor.style.fill = "none"
         } else {
             partToColor.style.fill = color
         }
     });
-    //adds a button that adds an animation when clicked
-    if (animation) {
-        let animationButton = document.createElement("button");
-        animationButton.innerText = "¤"
-        animationButton.addEventListener("click", () => {
-            document.getElementById(line2).classList.toggle(animation)
-        })
-        container.append(animationButton, colorButton);
-    }
+    container.appendChild(colorButton);
 }
