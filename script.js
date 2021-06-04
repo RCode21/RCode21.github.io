@@ -16,14 +16,19 @@ for (let i = 0; i < layers.length; i++) { //for every layer, repeat the followin
     buttonContainer.classList.add(layers[i].id); //add class to span (id of the layer it shows)
     const lines = layers[i].children; //find all lines in the layer
     for (let j = 0; j < lines.length; j++) { //then for every line, repeat the following instructions:
-        lines[j].classList.add("hidden", "a" + i + "l" + j) //give it two classes (one that hides it) 
+        lines[j].classList.add("hidden", i + "." + j) //give it two classes (one that hides it) 
         let button = document.createElement("button"); //make a button
         button.innerText = j + 1; //write a number on the button
-        button.classList.add("a" + i + "l" + j); //give it a class (same as the line)
+        button.classList.add(i + "." + j); //give it a class (same as the line)
         buttonContainer.appendChild(button); //put the button in the span-element   
     }
-    section.appendChild(buttonContainer); //put the span-element inside the section-element
+    section.appendChild(buttonContainer); //put the span-element inside the section-element 
 }
+
+const form = `<form><input type="text" id="animalName" placeHolder="name your animal"></input><button id="saveButton">save</button></form>`
+section.insertAdjacentHTML("afterBegin", form);
+const saveButton = document.getElementById("saveButton");
+saveButton.addEventListener("click", (e) => {e.preventDefault(); generateLink()});
 
 //adds the extra animation buttons for selected animals
 const snailButtonContainer = document.querySelector(".layer1");
@@ -67,3 +72,57 @@ function addColorButton(container, line, color) {
     });
     container.appendChild(colorButton);
 }
+
+function generateLink() {
+    let showingLines = [];
+    for (line in allLines) {
+        if (allLines[line].classList && !allLines[line].classList.contains("hidden")) {
+            showingLines.push(allLines[line].classList)
+        }
+    }
+    showingLines = showingLines.join(); //gör array till string
+    const animalName = document.getElementById("animalName").value;
+    let link;
+    if (showingLines) {
+        if (window.location.pathname) {
+            link = `your animal is at: <a href = "${window.location.origin + window.location.pathname}?a=${showingLines}&n=${animalName}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}</a>`;
+        } else {
+            link = `<a href = "${window.location.origin}?a=${showingLines}&n=${animalName}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}</a>`;
+        }
+    } else {
+        link = "you can't save an invisible animal"
+    }
+    section.insertAdjacentHTML("afterbegin", link)
+    return link;
+}
+
+function getAnimal() {
+    let animalString = new URLSearchParams(window.location.search); //plockar ut parametrar inkl frågetecken
+    let animalArray = animalString.getAll('a'); //tar bort frågetecken och gör array med ett värde
+    let savedAnimal = animalArray.toString().split(","); //gör först till sträng sedan array med separata värden
+    return savedAnimal;
+}
+
+function getAnimalName() {
+    let animalString = new URLSearchParams(window.location.search);
+    let animalName = animalString.get('n');
+    return animalName;
+}
+
+function printAnimal() {
+    const savedAnimal = getAnimal();
+    const savedName = getAnimalName()
+    for (savedLine in savedAnimal) {
+        for (line in allLines) {
+            if (allLines[line].classList && allLines[line].classList.contains(savedAnimal[savedLine])) {
+                allLines[line].classList.remove("hidden");
+                break
+            }
+        }
+    }
+    const headline = document.createElement("h1");
+    headline.innerText = "this is " + savedName;
+    document.body.insertBefore(headline, document.querySelector("svg"))
+}
+
+printAnimal();
