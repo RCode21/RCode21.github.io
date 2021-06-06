@@ -10,6 +10,9 @@ const allLines = document.querySelectorAll("g>*");
 //the section that the buttons are put in
 const section = document.querySelector("section");
 
+//the animal saved in the url-parameters
+let animalString = new URLSearchParams(window.location.search);
+
 //adds classes and makes buttons
 for (let i = 0; i < layers.length; i++) { //for every layer, repeat the following instructions:
     let buttonContainer = document.createElement("span"); //make a span element
@@ -28,7 +31,10 @@ for (let i = 0; i < layers.length; i++) { //for every layer, repeat the followin
 const form = `<form><input type="text" id="animalName" placeHolder="name your animal"></input><button id="saveButton">save</button></form>`
 section.insertAdjacentHTML("afterBegin", form);
 const saveButton = document.getElementById("saveButton");
-saveButton.addEventListener("click", (e) => {e.preventDefault(); generateLink()});
+saveButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    generateLink();
+});
 
 //adds the extra animation buttons for selected animals
 const snailButtonContainer = document.querySelector(".layer1");
@@ -53,7 +59,7 @@ function addAnimationButton(container, line, animation) {
     let animationButton = document.createElement("button");
     animationButton.innerText = "¤"
     animationButton.addEventListener("click", () => {
-        document.getElementById(line).classList.toggle(animation)
+        document.getElementById(line).classList.toggle(animation);
     })
     container.appendChild(animationButton);
 }
@@ -75,19 +81,32 @@ function addColorButton(container, line, color) {
 
 function generateLink() {
     let showingLines = [];
+    let animations = [];
+    let colors = [];
     for (line in allLines) {
         if (allLines[line].classList && !allLines[line].classList.contains("hidden")) {
-            showingLines.push(allLines[line].classList)
+            showingLines.push(allLines[line].classList[0])
         }
     }
-    showingLines = showingLines.join(); //gör array till string
+    if (hasColor(document.getElementById("path899"))) {
+        colors.push(1)
+    };
+    if (hasColor(document.getElementById("path1827"))) {
+        colors.push(2)
+    };
+    if (isAnimated(document.getElementById("path885"), "spin")) {
+        animations.push("a");
+    }
+    if (isAnimated(document.getElementById("path1744"), "wave")) {
+        animations.push("b");
+    }
     const animalName = document.getElementById("animalName").value;
     let link;
     if (showingLines) {
         if (window.location.pathname) {
-            link = `your animal is at: <a href = "${window.location.origin + window.location.pathname}?a=${showingLines}&n=${animalName}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}</a>`;
+            link = `link to your creature: <a href = "${window.location.origin + window.location.pathname}?a=${showingLines}&n=${animalName}&m=${animations}&c=${colors}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}&m=${animations}&c=${colors}</a>`;
         } else {
-            link = `<a href = "${window.location.origin}?a=${showingLines}&n=${animalName}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}</a>`;
+            link = `<a href = "${window.location.origin}?a=${showingLines}&n=${animalName}&m=${animations}&c=${colors}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}&m=${animations}&c=${colors}</a>`;
         }
     } else {
         link = "you can't save an invisible animal"
@@ -96,33 +115,66 @@ function generateLink() {
     return link;
 }
 
-function getAnimal() {
-    let animalString = new URLSearchParams(window.location.search); //plockar ut parametrar inkl frågetecken
+let savedAnimal = function () {
     let animalArray = animalString.getAll('a'); //tar bort frågetecken och gör array med ett värde
-    let savedAnimal = animalArray.toString().split(","); //gör först till sträng sedan array med separata värden
-    return savedAnimal;
-}
+    if (animalArray.length > 0) {
+        let savedAnimal = animalArray.toString().split(","); //gör först till sträng sedan array med separata värden 
+        return savedAnimal;
+    };
+}()
 
-function getAnimalName() {
-    let animalString = new URLSearchParams(window.location.search);
-    let animalName = animalString.get('n');
-    return animalName;
-}
-
-function printAnimal() {
-    const savedAnimal = getAnimal();
-    const savedName = getAnimalName()
-    for (savedLine in savedAnimal) {
-        for (line in allLines) {
-            if (allLines[line].classList && allLines[line].classList.contains(savedAnimal[savedLine])) {
-                allLines[line].classList.remove("hidden");
-                break
+function addEffects(params) {
+    let savedParams = animalString.getAll(params);
+    if (savedParams.length > 0) {
+        savedParams = savedParams.toString().split(","); //gör först till sträng sedan array med separata värden
+        for (let i in savedParams) {
+            if (savedParams[i] == "1") {
+                document.getElementById("path899").style.fill = color1
+            }
+            if (savedParams[i] == "2") {
+                document.getElementById("path1827").style.fill = color2
+            }
+            if (savedParams[i] == "a") {
+                document.getElementById("path885").classList.toggle("spin");
+            }
+            if (savedParams[i] == "b") {
+                document.getElementById("path1744").classList.toggle("wave");
             }
         }
     }
-    const headline = document.createElement("h1");
-    headline.innerText = "this is " + savedName;
-    document.body.insertBefore(headline, document.querySelector("svg"))
+}
+
+function printAnimal() {
+    if (savedAnimal) {
+        for (savedLine in savedAnimal) {
+            for (line in allLines) {
+                if (allLines[line].classList && allLines[line].classList
+                    .contains(savedAnimal[savedLine])) {
+                    allLines[line].classList.remove("hidden");
+                    break
+                }
+            }
+        }
+        addEffects("m");
+        addEffects("c");
+        const headline = document.createElement("h1");
+        headline.innerText = animalString.get('n');
+        document.body.insertBefore(headline, document.querySelector("svg"))
+    }
+}
+
+function hasColor(element) {
+    let color = window.getComputedStyle(element, null).getPropertyValue("fill");
+    if (color == "none") {
+        return false
+    } else {
+        return true
+    }
+}
+
+function isAnimated(element, animation) {
+    if (element.classList.contains(animation))
+        return true
 }
 
 printAnimal();
