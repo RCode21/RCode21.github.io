@@ -7,8 +7,10 @@ const layers = document.querySelectorAll("g");
 //all the lines
 const allLines = document.querySelectorAll("g>*");
 
-//the section that the buttons are put in
+//html-elements
 const section = document.querySelector("section");
+const aside = document.querySelector("aside");
+const linkContainer = document.querySelector("#linkContainer");
 
 //the animal saved in the url-parameters
 let animalString = new URLSearchParams(window.location.search);
@@ -19,17 +21,16 @@ for (let i = 0; i < layers.length; i++) { //for every layer, repeat the followin
     buttonContainer.classList.add(layers[i].id); //add class to span (id of the layer it shows)
     const lines = layers[i].children; //find all lines in the layer
     for (let j = 0; j < lines.length; j++) { //then for every line, repeat the following instructions:
-        lines[j].classList.add("hidden", i + "." + j) //give it two classes (one that hides it) 
+        lines[j].classList.add("hidden", i + "|" + j) //give it two classes (one that hides it) 
         let button = document.createElement("button"); //make a button
         button.innerText = j + 1; //write a number on the button
-        button.classList.add(i + "." + j); //give it a class (same as the line)
+        button.classList.add(i + "|" + j); //give it a class (same as the line)
         buttonContainer.appendChild(button); //put the button in the span-element   
     }
     section.appendChild(buttonContainer); //put the span-element inside the section-element 
 }
 
-const form = `<form><input type="text" id="animalName" placeHolder="name your animal"></input><button id="saveButton">save</button></form>`
-section.insertAdjacentHTML("afterBegin", form);
+
 const saveButton = document.getElementById("saveButton");
 saveButton.addEventListener("click", (e) => {
     e.preventDefault();
@@ -46,12 +47,15 @@ addAnimationButton(slothButtonContainer, "path1744", "wave");
 
 //detects clicks on buttons and shows or hides lines
 section.addEventListener("click", (e) => {
-    for (let i = 0; i < allLines.length; i++) {
-        if (allLines[i].classList.contains(e.target.classList[0])) {
-            allLines[i].classList.toggle("hidden");
+    if (e.target.tagName == "BUTTON") {
+        for (let i = 0; i < allLines.length; i++) {
+            if (allLines[i].classList.contains(e.target.classList[0])) {
+                allLines[i].classList.toggle("hidden");
+            }
         }
+        e.target.classList.toggle("on"); //changes button look
     }
-    e.target.classList.toggle("on"); //changes button look
+    else {console.log(e.target.tagName)}
 });
 
 //adds a button that adds an animation when clicked
@@ -67,6 +71,7 @@ function addAnimationButton(container, line, animation) {
 //adds a buttons that changes color of a part when clicked
 function addColorButton(container, line, color) {
     let colorButton = document.createElement("button");
+    colorButton.classList.add(line);
     colorButton.innerText = "¤"; //here you can change the button text
     colorButton.addEventListener("click", () => {
         let partToColor = document.getElementById(line);
@@ -88,6 +93,7 @@ function generateLink() {
             showingLines.push(allLines[line].classList[0])
         }
     }
+    showingLines = showingLines.join(); //gör array till string
     if (hasColor(document.getElementById("path899"))) {
         colors.push(1)
     };
@@ -106,12 +112,13 @@ function generateLink() {
         if (window.location.pathname) {
             link = `link to your creature: <a href = "${window.location.origin + window.location.pathname}?a=${showingLines}&n=${animalName}&m=${animations}&c=${colors}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}&m=${animations}&c=${colors}</a>`;
         } else {
-            link = `<a href = "${window.location.origin}?a=${showingLines}&n=${animalName}&m=${animations}&c=${colors}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}&m=${animations}&c=${colors}</a>`;
+            link = `link to your creature: <a href = "${window.location.origin}?a=${showingLines}&n=${animalName}&m=${animations}&c=${colors}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}&m=${animations}&c=${colors}</a>`;
         }
     } else {
         link = "you can't save an invisible animal"
     }
-    section.insertAdjacentHTML("afterbegin", link)
+    linkContainer.innerHTML ="";
+    linkContainer.insertAdjacentHTML("beforeend", link)
     return link;
 }
 
@@ -129,16 +136,20 @@ function addEffects(params) {
         savedParams = savedParams.toString().split(","); //gör först till sträng sedan array med separata värden
         for (let i in savedParams) {
             if (savedParams[i] == "1") {
-                document.getElementById("path899").style.fill = color1
+                document.getElementById("path899").style.fill = color1;
+                document.querySelector(".path899").classList.toggle("on");
             }
             if (savedParams[i] == "2") {
-                document.getElementById("path1827").style.fill = color2
+                document.getElementById("path1827").style.fill = color2;
+                document.querySelector(".path1827").classList.toggle("on");
             }
             if (savedParams[i] == "a") {
                 document.getElementById("path885").classList.toggle("spin");
+                document.querySelector(".path1827").classList.toggle("on");
             }
             if (savedParams[i] == "b") {
                 document.getElementById("path1744").classList.toggle("wave");
+                document.querySelector(".path1827").classList.toggle("on");
             }
         }
     }
@@ -148,18 +159,17 @@ function printAnimal() {
     if (savedAnimal) {
         for (savedLine in savedAnimal) {
             for (line in allLines) {
-                if (allLines[line].classList && allLines[line].classList
-                    .contains(savedAnimal[savedLine])) {
+                if (allLines[line].classList && allLines[line].classList.contains(savedAnimal[savedLine])) {
                     allLines[line].classList.remove("hidden");
+                    document.getElementsByClassName(savedAnimal[savedLine])[1].classList.toggle("on");
                     break
                 }
             }
         }
         addEffects("m");
         addEffects("c");
-        const headline = document.createElement("h1");
-        headline.innerText = animalString.get('n');
-        document.body.insertBefore(headline, document.querySelector("svg"))
+        const headline = `<p>Feel free to draw your own creature. This one is called <h1>${animalString.get('n')}</h1>`
+        document.querySelector("main").insertAdjacentHTML("afterbegin", headline)
     }
 }
 
