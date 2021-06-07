@@ -173,7 +173,8 @@ function printAnimal() {
         }
         addEffects();  
         const headline = `<p>Feel free to draw your own creature. This one is called <h1>${animalString.get('n')}</h1>`
-        document.querySelector("main").insertAdjacentHTML("afterbegin", headline)
+        document.querySelector("main").insertAdjacentHTML("afterbegin", headline);
+        document.querySelector("title").textContent = animalString.get('n');
     }
 }
 
