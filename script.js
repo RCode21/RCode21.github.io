@@ -1,26 +1,33 @@
 //here you can change or add animations and colors
 let animations = [{
-    line: "path885", //the id from the svg
-    animation: "spin", //animations are defined in the css
-    layer: "layer1" //the layer the path is in
-}, {
-    line: "path1744",
-    animation: "wave",
-    layer: "layer3"
-}, {
-    line: "path899",
-    color: "lightgreen",
-    layer: "layer1"
-}, {
-    line: "path1827",
-    color: "pink",
-    layer: "layer3"
-},
-{
-    line: "path899",
-    animation: "wave",
-    layer: "layer1"
-}]
+        line: "path885", //the id from the svg
+        animation: "spin", //animations are defined in the css
+        layer: "layer1" //the layer the path is in
+    }, {
+        line: "path1744",
+        animation: "wave",
+        layer: "layer3"
+    }, {
+        line: "path899",
+        color: "lightgreen",
+        layer: "layer1"
+    }, {
+        line: "path1827",
+        color: "pink",
+        layer: "layer3"
+    },
+    {
+        line: "path899",
+        animation: "wave",
+        layer: "layer1"
+    },
+    {
+        special: "beige",
+        layer: "layer3"
+    }
+]
+
+
 
 //all the layers
 const layers = document.querySelectorAll("g");
@@ -82,18 +89,35 @@ function addAnimationButtons() {
         let line = document.getElementById(animations[i].line);
         let animation = animations[i].animation;
         let color = animations[i].color;
+        let special = animations[i].special;
         if (animation) {
             button.addEventListener("click", () => {
                 line.classList.toggle(animation);
             });
-        } else if (color)
+        }
+        if (color) {
             button.addEventListener("click", () => {
-                if (window.getComputedStyle(line).fill != "none") {
-                    line.style.fill = "none"
+                let currentColor = line.style.fill;
+                if (currentColor != color) {
+                    line.style.fill = color;
                 } else {
-                    line.style.fill = color
+                    line.style.fill = "none"
                 }
             });
+        }
+
+        if (special) {
+            button.addEventListener("click", () => {
+                const sloth = document.querySelectorAll("#layer3>*");
+                for (let i = 0; i < sloth.length; i++) {
+                    if (sloth[i].style.fill == "none") {
+                        sloth[i].style.fill = special;
+                    } else {
+                        sloth[i].style.fill = "none";
+                    }
+                }
+            })
+        }
         container.appendChild(button);
     }
 }
@@ -143,7 +167,7 @@ let savedAnimal = function () {
 //adds animations when printing an animal
 function addEffects() {
     let savedParams = animalString.getAll("m");
-    if (savedParams.length > 0) { 
+    if (savedParams.length > 0) {
         savedParams = savedParams.toString().split(",");
         for (let i in savedParams) {
             let animationIndex = savedParams[i];
@@ -171,7 +195,7 @@ function printAnimal() {
                 }
             }
         }
-        addEffects();  
+        addEffects();
         const headline = `<p>Feel free to draw your own creature. This one is called <h1>${animalString.get('n')}</h1>`
         document.querySelector("main").insertAdjacentHTML("afterbegin", headline);
         document.querySelector("title").textContent = animalString.get('n');
