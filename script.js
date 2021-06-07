@@ -1,6 +1,26 @@
-//here you can change colors
-const color1 = "lightgreen";
-const color2 = "pink";
+//here you can change or add animations and colors
+let animations = [{
+    line: "path885", //the id from the svg
+    animation: "spin", //animations are defined in the css
+    layer: "layer1" //the layer the path is in
+}, {
+    line: "path1744",
+    animation: "wave",
+    layer: "layer3"
+}, {
+    line: "path899",
+    color: "lightgreen",
+    layer: "layer1"
+}, {
+    line: "path1827",
+    color: "pink",
+    layer: "layer3"
+},
+{
+    line: "path899",
+    animation: "wave",
+    layer: "layer1"
+}]
 
 //all the layers
 const layers = document.querySelectorAll("g");
@@ -30,20 +50,15 @@ for (let i = 0; i < layers.length; i++) { //for every layer, repeat the followin
     section.appendChild(buttonContainer); //put the span-element inside the section-element 
 }
 
-
+//connects the save-function to the save-button
 const saveButton = document.getElementById("saveButton");
 saveButton.addEventListener("click", (e) => {
     e.preventDefault();
     generateLink();
 });
 
-//adds the extra animation buttons for selected animals
-const snailButtonContainer = document.querySelector(".layer1");
-const slothButtonContainer = document.querySelector(".layer3");
-addColorButton(snailButtonContainer, "path899", color1);
-addAnimationButton(snailButtonContainer, "path885", "spin");
-addColorButton(slothButtonContainer, "path1827", color2);
-addAnimationButton(slothButtonContainer, "path1744", "wave");
+//runs function that adds the extra animation/color buttons
+addAnimationButtons();
 
 //detects clicks on buttons and shows or hides lines
 section.addEventListener("click", (e) => {
@@ -55,73 +70,68 @@ section.addEventListener("click", (e) => {
         }
         e.target.classList.toggle("on"); //changes button look
     }
-    else {console.log(e.target.tagName)}
 });
 
-//adds a button that adds an animation when clicked
-function addAnimationButton(container, line, animation) {
-    let animationButton = document.createElement("button");
-    animationButton.innerText = "¤"
-    animationButton.addEventListener("click", () => {
-        document.getElementById(line).classList.toggle(animation);
-    })
-    container.appendChild(animationButton);
+//adds buttons that adds animations when clicked
+function addAnimationButtons() {
+    for (i in animations) {
+        let button = document.createElement("button");
+        button.classList.add(animations[i].line);
+        button.innerText = "¤";
+        let container = document.querySelector("." + animations[i].layer);
+        let line = document.getElementById(animations[i].line);
+        let animation = animations[i].animation;
+        let color = animations[i].color;
+        if (animation) {
+            button.addEventListener("click", () => {
+                line.classList.toggle(animation);
+            });
+        } else if (color)
+            button.addEventListener("click", () => {
+                if (window.getComputedStyle(line).fill != "none") {
+                    line.style.fill = "none"
+                } else {
+                    line.style.fill = color
+                }
+            });
+        container.appendChild(button);
+    }
 }
 
-//adds a buttons that changes color of a part when clicked
-function addColorButton(container, line, color) {
-    let colorButton = document.createElement("button");
-    colorButton.classList.add(line);
-    colorButton.innerText = "¤"; //here you can change the button text
-    colorButton.addEventListener("click", () => {
-        let partToColor = document.getElementById(line);
-        if (window.getComputedStyle(partToColor).fill != "none") {
-            partToColor.style.fill = "none"
-        } else {
-            partToColor.style.fill = color
-        }
-    });
-    container.appendChild(colorButton);
-}
-
+//makes the link for the saved animal
 function generateLink() {
     let showingLines = [];
-    let animations = [];
-    let colors = [];
+    let savedAnimations = [];
+    const animalName = document.getElementById("animalName").value;
+    let link = "";
     for (line in allLines) {
         if (allLines[line].classList && !allLines[line].classList.contains("hidden")) {
             showingLines.push(allLines[line].classList[0])
         }
     }
-    showingLines = showingLines.join(); //gör array till string
-    if (hasColor(document.getElementById("path899"))) {
-        colors.push(1)
-    };
-    if (hasColor(document.getElementById("path1827"))) {
-        colors.push(2)
-    };
-    if (isAnimated(document.getElementById("path885"), "spin")) {
-        animations.push("a");
+    showingLines = showingLines.join(); //make string from array
+    for (i in animations) {
+        if (animations[i].color && hasColor(document.getElementById(animations[i].line))) {
+            savedAnimations.push(i)
+        }
+        if (animations[i].animation && isAnimated(document.getElementById(animations[i].line), animations[i].animation)) {
+            savedAnimations.push(i)
+        }
     }
-    if (isAnimated(document.getElementById("path1744"), "wave")) {
-        animations.push("b");
-    }
-    const animalName = document.getElementById("animalName").value;
-    let link;
     if (showingLines) {
         if (window.location.pathname) {
-            link = `link to your creature: <a href = "${window.location.origin + window.location.pathname}?a=${showingLines}&n=${animalName}&m=${animations}&c=${colors}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}&m=${animations}&c=${colors}</a>`;
+            link = `link to your creature: <a href = "${window.location.origin + window.location.pathname}?a=${showingLines}&n=${animalName}&m=${savedAnimations}" target ="_blank">${window.location.origin + window.location.pathname}?a=${showingLines}&n=${animalName}&m=${savedAnimations}</a>`;
         } else {
-            link = `link to your creature: <a href = "${window.location.origin}?a=${showingLines}&n=${animalName}&m=${animations}&c=${colors}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}&m=${animations}&c=${colors}</a>`;
+            link = `link to your creature: <a href = "${window.location.origin}?a=${showingLines}&n=${animalName}&m=${savedAnimations}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}&m=${savedAnimations}</a>`;
         }
     } else {
         link = "you can't save an invisible animal"
     }
-    linkContainer.innerHTML ="";
+    linkContainer.innerHTML = "";
     linkContainer.insertAdjacentHTML("beforeend", link)
-    return link;
 }
 
+//gets the parameters for the saved lines
 let savedAnimal = function () {
     let animalArray = animalString.getAll('a'); //tar bort frågetecken och gör array med ett värde
     if (animalArray.length > 0) {
@@ -130,31 +140,26 @@ let savedAnimal = function () {
     };
 }()
 
-function addEffects(params) {
-    let savedParams = animalString.getAll(params);
-    if (savedParams.length > 0) {
-        savedParams = savedParams.toString().split(","); //gör först till sträng sedan array med separata värden
+//adds animations when printing an animal
+function addEffects() {
+    let savedParams = animalString.getAll("m");
+    if (savedParams.length > 0) { 
+        savedParams = savedParams.toString().split(",");
         for (let i in savedParams) {
-            if (savedParams[i] == "1") {
-                document.getElementById("path899").style.fill = color1;
-                document.querySelector(".path899").classList.toggle("on");
+            let animationIndex = savedParams[i];
+            if (animations[animationIndex].color) {
+                document.getElementById(animations[animationIndex].line).style.fill = animations[animationIndex].color;
             }
-            if (savedParams[i] == "2") {
-                document.getElementById("path1827").style.fill = color2;
-                document.querySelector(".path1827").classList.toggle("on");
+            if (animations[animationIndex].animation) {
+                document.getElementById(animations[animationIndex].line).classList.toggle(animations[animationIndex].animation);
             }
-            if (savedParams[i] == "a") {
-                document.getElementById("path885").classList.toggle("spin");
-                document.querySelector(".path1827").classList.toggle("on");
-            }
-            if (savedParams[i] == "b") {
-                document.getElementById("path1744").classList.toggle("wave");
-                document.querySelector(".path1827").classList.toggle("on");
-            }
+            let button = document.querySelector("." + animations[animationIndex].line);
+            button.classList.toggle("on");
         }
     }
 }
 
+//prints out saved animal from the url
 function printAnimal() {
     if (savedAnimal) {
         for (savedLine in savedAnimal) {
@@ -166,13 +171,13 @@ function printAnimal() {
                 }
             }
         }
-        addEffects("m");
-        addEffects("c");
+        addEffects();  
         const headline = `<p>Feel free to draw your own creature. This one is called <h1>${animalString.get('n')}</h1>`
         document.querySelector("main").insertAdjacentHTML("afterbegin", headline)
     }
 }
 
+//checks if the element has a fill
 function hasColor(element) {
     let color = window.getComputedStyle(element, null).getPropertyValue("fill");
     if (color == "none") {
@@ -182,9 +187,11 @@ function hasColor(element) {
     }
 }
 
+//checks if element has animation-class
 function isAnimated(element, animation) {
     if (element.classList.contains(animation))
         return true
 }
 
+//runs function that shows animal
 printAnimal();
