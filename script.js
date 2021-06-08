@@ -22,7 +22,11 @@ let animations = [{
         layer: "layer1"
     },
     {
-        special: "beige",
+        colorAll: "beige",
+        layer: "layer3"
+    },
+    {
+        colorAll: "aliceblue",
         layer: "layer3"
     }
 ]
@@ -89,7 +93,7 @@ function addAnimationButtons() {
         let line = document.getElementById(animations[i].line);
         let animation = animations[i].animation;
         let color = animations[i].color;
-        let special = animations[i].special;
+        let colorAll = animations[i].colorAll;
         if (animation) {
             button.addEventListener("click", () => {
                 line.classList.toggle(animation);
@@ -105,15 +109,14 @@ function addAnimationButtons() {
                 }
             });
         }
-
-        if (special) {
+        if (colorAll) {
             button.addEventListener("click", () => {
-                const sloth = document.querySelectorAll("#layer3>*");
-                for (let i = 0; i < sloth.length; i++) {
-                    if (sloth[i].style.fill == "none") {
-                        sloth[i].style.fill = special;
+                const animal = document.querySelectorAll("#" + animations[i].layer + ">*");
+                for (let i = 0; i < animal.length; i++) {
+                    if (animal[i].style.fill != colorAll) {
+                        animal[i].style.fill = colorAll;
                     } else {
-                        sloth[i].style.fill = "none";
+                        animal[i].style.fill = "none";
                     }
                 }
             })
