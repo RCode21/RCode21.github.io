@@ -170,7 +170,8 @@ let savedAnimal = function () {
 //adds animations when printing an animal
 function addEffects() {
     let savedParams = animalString.getAll("m");
-    if (savedParams.length > 0) {
+    console.log(savedParams)
+    if (savedParams[0]) {
         savedParams = savedParams.toString().split(",");
         for (let i in savedParams) {
             let animationIndex = savedParams[i];
@@ -199,7 +200,7 @@ function printAnimal() {
             }
         }
         addEffects();
-        const headline = `<p>Feel free to draw your own creature. This one is called <h1>${animalString.get('n')}</h1>`
+        const headline = `<p>Use the buttons to draw your own creature. This one is called <h1>${animalString.get('n')}</h1>`
         document.querySelector("main").insertAdjacentHTML("afterbegin", headline);
         document.querySelector("title").textContent = animalString.get('n');
     }
