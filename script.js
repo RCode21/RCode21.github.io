@@ -22,11 +22,11 @@ let animations = [{
         layer: "layer1"
     },
     {
-        colorAll: "beige",
-        layer: "layer3"
+        colorAll: "rgba(231, 127, 95, 0.2)",
+        layer: "layer5"
     },
     {
-        colorAll: "aliceblue",
+        colorAll: "rgba(60, 179, 113, 0.3)",
         layer: "layer3"
     }
 ]
@@ -94,6 +94,7 @@ function addAnimationButtons() {
         let animation = animations[i].animation;
         let color = animations[i].color;
         let colorAll = animations[i].colorAll;
+        const animal = document.querySelectorAll("#" + animations[i].layer + ">*");
         if (animation) {
             button.addEventListener("click", () => {
                 line.classList.toggle(animation);
@@ -110,8 +111,7 @@ function addAnimationButtons() {
             });
         }
         if (colorAll) {
-            button.addEventListener("click", () => {
-                const animal = document.querySelectorAll("#" + animations[i].layer + ">*");
+            button.addEventListener("click", () => {    
                 for (let i = 0; i < animal.length; i++) {
                     if (animal[i].style.fill != colorAll) {
                         animal[i].style.fill = colorAll;
@@ -200,7 +200,7 @@ function printAnimal() {
             }
         }
         addEffects();
-        const headline = `<p>Use the buttons to draw your own creature. This one is called <h1>${animalString.get('n')}</h1>`
+        const headline = `<p>Use the buttons to draw your own creature. This one is called <h1>${animalString.get('n')}</h1></p>`
         document.querySelector("main").insertAdjacentHTML("afterbegin", headline);
         document.querySelector("title").textContent = animalString.get('n');
     }

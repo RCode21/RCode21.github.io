@@ -26,23 +26,26 @@ body {
     z-index: 0;
 }
 
+h1 {margin:0}
+
 input {padding: 0.5em; margin:1em;;}
 
 main {grid-area: 1/1/2/2;
-display:flex; flex-direction: column; align-items: center;}
+display:flex; flex-direction: column; align-items: center; overflow:auto}
 
-svg { width:50vw;
+svg { width:70vw;
+    height:auto;
     position: relative;
     z-index: 1;
 }
 
 aside {grid-area: 1/2/2/3;
 display:flex;
-flex-wrap:wrap;
 align-items: flex-start;
 justify-content: flex-start;
-padding:2em;
+padding:3em 3em 0 0;
 flex-direction: column;
+overflow-y: auto;
 }
 
 button {
