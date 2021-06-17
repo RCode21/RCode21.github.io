@@ -42,7 +42,8 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 svg {
@@ -147,6 +148,39 @@ span:nth-child(odd)>button {
     }
 }
 
+.run {
+    -webkit-animation: jump 0.2s alternate infinite ease-in-out, moveRight 5s 1 linear forwards;
+    animation: jump 0.2s alternate infinite ease-in-out, moveRight 5s 1 linear forwards;
+}
+
+@-webkit-keyframes jump {
+    to {
+        -webkit-transform: translatey(-20px);
+        transform: translatey(-20px);
+    }
+}
+
+@keyframes jump {
+    to {
+        -webkit-transform: translatey(-20px);
+        transform: translatey(-20px);
+    }
+}
+
+@-webkit-keyframes moveRight {
+    to {
+        -webkit-transform: translatex(-100%);
+        transform: translatex(-100%);
+    }
+}
+
+@keyframes moveRight {
+    to {
+        -webkit-transform: translatex(-100%);
+        transform: translatex(-100%);
+    }
+}
+
 @media only screen and (orientation: portrait) {
     body {
         display: grid;
@@ -167,3 +201,4 @@ span:nth-child(odd)>button {
         padding: 1em
     }
 }
+
