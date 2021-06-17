@@ -74,6 +74,7 @@ addAnimationButtons();
 //detects clicks on buttons and shows or hides lines
 section.addEventListener("click", (e) => {
     if (e.target.tagName == "BUTTON") {
+        e.preventDefault();
         for (let i = 0; i < allLines.length; i++) {
             if (allLines[i].classList.contains(e.target.classList[0])) {
                 allLines[i].classList.toggle("hidden");
@@ -96,12 +97,14 @@ function addAnimationButtons() {
         let colorAll = animations[i].colorAll;
         const animal = document.querySelectorAll("#" + animations[i].layer + ">*");
         if (animation) {
-            button.addEventListener("click", () => {
+            button.addEventListener("click", (e) => {
+                e.preventDefault();
                 line.classList.toggle(animation);
             });
         }
         if (color) {
-            button.addEventListener("click", () => {
+            button.addEventListener("click", (e) => {
+                e.preventDefault();
                 let currentColor = line.style.fill;
                 if (currentColor != color) {
                     line.style.fill = color;
@@ -111,7 +114,8 @@ function addAnimationButtons() {
             });
         }
         if (colorAll) {
-            button.addEventListener("click", () => {    
+            button.addEventListener("click", (e) => {    
+                e.preventDefault();
                 for (let i = 0; i < animal.length; i++) {
                     if (animal[i].style.fill != colorAll) {
                         animal[i].style.fill = colorAll;
