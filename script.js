@@ -114,7 +114,7 @@ function addAnimationButtons() {
             });
         }
         if (colorAll) {
-            button.addEventListener("click", (e) => {    
+            button.addEventListener("click", (e) => {
                 e.preventDefault();
                 for (let i = 0; i < animal.length; i++) {
                     if (animal[i].style.fill != colorAll) {
@@ -204,10 +204,21 @@ function printAnimal() {
             }
         }
         addEffects();
-        const headline = `<p>Use the buttons to draw your own creature. This one is called <h1>${animalString.get('n')}</h1></p>`
+        const headline = `<p>Use the buttons to draw your own creature. This one is called <h1>${animalString.get('n')}</h1><p><a href="javascript:void(0)" id="run">run away ${animalString.get('n')} you are free now</a></p></p>`
         document.querySelector("main").insertAdjacentHTML("afterbegin", headline);
         document.querySelector("title").textContent = animalString.get('n');
+        document.getElementById('run').addEventListener("click", (e) => {
+            e.preventDefault;
+            run();
+        })
     }
+}
+
+function run() {
+    document.querySelector('svg').classList.add('run');
+    setTimeout(function () {
+        window.location = window.location.pathname;
+    }, 4000);
 }
 
 //checks if the element has a fill
