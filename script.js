@@ -204,7 +204,7 @@ function printAnimal() {
             }
         }
         addEffects();
-        const headline = `<p>Use the buttons to draw your own creature. This one is called <h1>${animalString.get('n')}</h1><p><a href="javascript:void(0)" id="run">run away ${animalString.get('n')} you are free now</a></p></p>`
+        const headline = `<p>Use the buttons to draw your own creature. This one is called <h1>${animalString.get('n')}</h1><p><a href="javascript:void(0)" id="run">run away ${animalString.get('n')}, you are free now</a></p></p>`
         document.querySelector("main").insertAdjacentHTML("afterbegin", headline);
         document.querySelector("title").textContent = animalString.get('n');
         document.getElementById('run').addEventListener("click", (e) => {
