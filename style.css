@@ -42,8 +42,8 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: auto;
+    padding: 5em;
 }
 
 svg {
@@ -190,15 +190,17 @@ span:nth-child(odd)>button {
 
     main {
         grid-area: 1/1/2/2;
+        padding: 1em 0 0 0;
     }
 
     svg {
-        width: 100vw;
+        width: 85vw;
     }
 
     aside {
         grid-area: 2/1/3/2;
-        padding: 1em
+        padding: 1em;
+        overflow: auto;
     }
 }
 
