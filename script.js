@@ -37,15 +37,15 @@ let animations = [
 
 let sound = true;
 const soundButton = document.querySelector("#soundButton");
-soundButton.innerText = "sound off";
+soundButton.innerText = "sound is on";
 
 soundButton.addEventListener("click", () => {
   if (sound) {
     sound = false;
-    soundButton.innerText = "sound on";
+    soundButton.innerText = "sound is off";
   } else {
     sound = true;
-    soundButton.innerText = "sound off";
+    soundButton.innerText = "sound is on";
   }
 });
 
@@ -251,7 +251,7 @@ function printAnimal() {
       }
     }
     addEffects();
-    const headline = `<h2>Someone drew you this creature called ${animalString.get(
+    const headline = `<h2>Someone drew you a creature called ${animalString.get(
       "n"
     )}</h2><p><a href="javascript:void(0)" id="run">run away ${animalString.get(
       "n"
