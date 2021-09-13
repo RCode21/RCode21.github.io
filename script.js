@@ -37,15 +37,15 @@ let animations = [
 
 let sound = true;
 const soundButton = document.querySelector("#soundButton");
-soundButton.innerText = "sound on";
+soundButton.innerText = "sound off";
 
 soundButton.addEventListener("click", () => {
   if (sound) {
     sound = false;
-    soundButton.innerText = "sound off";
+    soundButton.innerText = "sound on";
   } else {
     sound = true;
-    soundButton.innerText = "sound on";
+    soundButton.innerText = "sound off";
   }
 });
 
