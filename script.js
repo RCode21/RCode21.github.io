@@ -98,7 +98,8 @@ section.addEventListener("click", (e) => {
         allLines[i].classList.toggle("hidden");
         if (sound && !allLines[i].classList.contains("hidden"))
         {let audio = new Audio("./sounds/" + [i] + ".mp3");
-        audio.play();}
+        audio.play();
+      console.log("./sounds/" + [i] + ".mp3")}
       }
     }
     e.target.classList.toggle("on"); //changes button look
