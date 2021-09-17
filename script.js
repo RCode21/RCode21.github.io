@@ -80,7 +80,7 @@ for (let i = 0; i < layers.length; i++) {
   section.appendChild(buttonContainer); //put the span-element inside the section-element
 }
 
-//hopefully preload sounds
+//preload sounds
 function makeSoundArray() {
   let allSounds = [];
   for (let i = 0; i < layers.length; i++) {
@@ -90,12 +90,39 @@ function makeSoundArray() {
       let sound = new Audio(`./sounds/${i}.${j}.mp3`);
       creatureSounds.push(sound);
     }
-    allSounds.push(creatureSounds)
+    allSounds.push(creatureSounds);
   }
   return allSounds;
-};
+}
 
-let allSounds = makeSoundArray()
+let allSounds = makeSoundArray();
+
+//make song
+function makeSong() {
+  let song = [];
+  for (let i = 0; i < allLines.length; i++) {
+    if (!allLines[i].classList.contains("hidden")) {
+      numbersArray = allLines[i].classList.value.split("|");
+    
+    let j = numbersArray[0];
+    let k = numbersArray[1];
+    let soundFile = allSounds[j][k];
+    song.push(soundFile);}
+  }
+  return song;
+}
+      
+const songButton = document.getElementById("songButton"); 
+songButton.addEventListener("click", playSong); 
+
+
+function playSong() {
+  let song = makeSong();
+  console.log(song.length, song)
+  for (let index = 0; index < song.length; index++) {
+    setTimeout(function(){song[index].play()}, index * 500);
+  }
+}
 
 //connects the save-function to the save-button
 const saveButton = document.getElementById("saveButton");
@@ -116,12 +143,14 @@ section.addEventListener("click", (e) => {
         allLines[i].classList.toggle("hidden");
         if (sound && !allLines[i].classList.contains("hidden")) {
           let buttonClass = e.target.classList.value;
-          let numbersArray = []
-          if (buttonClass) {numbersArray = buttonClass.split("|")};
+          let numbersArray = [];
+          if (buttonClass) {
+            numbersArray = buttonClass.split("|");
+          }
           let i = numbersArray[0];
           let j = numbersArray[1];
-          let soundFile = allSounds[i][j]
-          soundFile.play()
+          let soundFile = allSounds[i][j];
+          soundFile.play();
         }
       }
     }
@@ -235,7 +264,6 @@ let savedAnimal = (function () {
 //adds animations when printing an animal
 function addEffects() {
   let savedParams = animalString.getAll("m");
-  console.log(savedParams);
   if (savedParams[0]) {
     savedParams = savedParams.toString().split(",");
     for (let i in savedParams) {
