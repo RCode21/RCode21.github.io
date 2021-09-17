@@ -35,6 +35,20 @@ let animations = [
   },
 ];
 
+//all the layers
+const layers = document.querySelectorAll("g");
+//all the lines
+const allLines = document.querySelectorAll("g>*");
+
+//html-elements
+const section = document.querySelector("section");
+const aside = document.querySelector("aside");
+const linkContainer = document.querySelector("#linkContainer");
+
+//the animal saved in the url-parameters
+let animalString = new URLSearchParams(window.location.search);
+
+//create soud on/off -button
 let sound = true;
 const soundButton = document.querySelector("#soundButton");
 soundButton.innerText = "sound is on";
@@ -49,24 +63,11 @@ soundButton.addEventListener("click", () => {
   }
 });
 
-//all the layers
-const layers = document.querySelectorAll("g");
-//all the lines
-const allLines = document.querySelectorAll("g>*");
-
-//html-elements
-const section = document.querySelector("section");
-const aside = document.querySelector("aside");
-const linkContainer = document.querySelector("#linkContainer");
-
-//the animal saved in the url-parameters
-let animalString = new URLSearchParams(window.location.search);
-
 //adds classes and makes buttons
 for (let i = 0; i < layers.length; i++) {
   //for every layer, repeat the following instructions:
   let buttonContainer = document.createElement("span"); //make a span element
-  buttonContainer.classList.add(layers[i].id); //add class to span (id of the layer it shows)
+  buttonContainer.classList.add(layers[i].id); //add css-class to span (same as id of the layer it shows)
   const lines = layers[i].children; //find all lines in the layer
   for (let j = 0; j < lines.length; j++) {
     //then for every line, repeat the following instructions:
@@ -78,6 +79,23 @@ for (let i = 0; i < layers.length; i++) {
   }
   section.appendChild(buttonContainer); //put the span-element inside the section-element
 }
+
+//hopefully preload sounds
+function makeSoundArray() {
+  let allSounds = [];
+  for (let i = 0; i < layers.length; i++) {
+    const lines = layers[i].children;
+    let creatureSounds = [];
+    for (let j = 0; j < lines.length; j++) {
+      let sound = new Audio(`./sounds/${i}.${j}.mp3`);
+      creatureSounds.push(sound);
+    }
+    allSounds.push(creatureSounds)
+  }
+  return allSounds;
+};
+
+let allSounds = makeSoundArray()
 
 //connects the save-function to the save-button
 const saveButton = document.getElementById("saveButton");
@@ -96,10 +114,15 @@ section.addEventListener("click", (e) => {
     for (let i = 0; i < allLines.length; i++) {
       if (allLines[i].classList.contains(e.target.classList[0])) {
         allLines[i].classList.toggle("hidden");
-        if (sound && !allLines[i].classList.contains("hidden"))
-        {let audio = new Audio("./sounds/" + [i] + ".mp3");
-        audio.play();
-      console.log("./sounds/" + [i] + ".mp3")}
+        if (sound && !allLines[i].classList.contains("hidden")) {
+          let buttonClass = e.target.classList.value;
+          let numbersArray = []
+          if (buttonClass) {numbersArray = buttonClass.split("|")};
+          let i = numbersArray[0];
+          let j = numbersArray[1];
+          let soundFile = allSounds[i][j]
+          soundFile.play()
+        }
       }
     }
     e.target.classList.toggle("on"); //changes button look
