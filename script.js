@@ -1,6 +1,5 @@
 //here you can change or add animations and colors
-let animations = [
-  {
+let animations = [{
     line: "path885", //the id from the svg
     animation: "spin", //animations are defined in the css
     layer: "layer1", //the layer the path is in
@@ -21,11 +20,6 @@ let animations = [
     layer: "layer3",
   },
   {
-    line: "path899",
-    animation: "wave",
-    layer: "layer1",
-  },
-  {
     colorAll: "rgba(231, 127, 95, 0.2)",
     layer: "layer5",
   },
@@ -33,12 +27,18 @@ let animations = [
     colorAll: "rgba(60, 179, 113, 0.3)",
     layer: "layer3",
   },
+  {
+    colorAll: "rgba(60, 100, 200, 0.3)",
+    layer: "layer1"
+  }
 ];
 
 //all the layers
 const layers = document.querySelectorAll("g");
 //all the lines
 const allLines = document.querySelectorAll("g>*");
+
+let svg = document.querySelector("svg")
 
 //html-elements
 const section = document.querySelector("section");
@@ -66,8 +66,18 @@ soundButton.addEventListener("click", () => {
 //adds classes and makes buttons
 for (let i = 0; i < layers.length; i++) {
   //for every layer, repeat the following instructions:
+  let container = document.createElement("p");
+  container.classList.add("buttonSection")
+  let menuButton = document.createElement("i");
+  if(i==0)
+  {menuButton.classList.add(layers[i].id, "fas", "fa-minus-circle");} //add css-class to button (same as id of the layer/animal)
+  else{menuButton.classList.add(layers[i].id, "fas", "fa-plus-circle");}
+  menuButton.addEventListener("click", (e) => {
+    toggleMenu(e)
+  })
   let buttonContainer = document.createElement("span"); //make a span element
-  buttonContainer.classList.add(layers[i].id); //add css-class to span (same as id of the layer it shows)
+  buttonContainer.classList.add(layers[i].id);//add css-class to span (same as id of the layer/animal)
+  if(i!=0) {buttonContainer.classList.add("hidden")}
   const lines = layers[i].children; //find all lines in the layer
   for (let j = 0; j < lines.length; j++) {
     //then for every line, repeat the following instructions:
@@ -77,7 +87,8 @@ for (let i = 0; i < layers.length; i++) {
     button.classList.add(i + "|" + j); //give it a class (same as the line)
     buttonContainer.appendChild(button); //put the button in the span-element
   }
-  section.appendChild(buttonContainer); //put the span-element inside the section-element
+  container.append(menuButton, buttonContainer);
+  section.appendChild(container); //put the span-element inside the section-element
 }
 
 //preload sounds
@@ -103,24 +114,27 @@ function makeSong() {
   for (let i = 0; i < allLines.length; i++) {
     if (!allLines[i].classList.contains("hidden")) {
       numbersArray = allLines[i].classList.value.split("|");
-    
-    let j = numbersArray[0];
-    let k = numbersArray[1];
-    let soundFile = allSounds[j][k];
-    song.push(soundFile);}
+
+      let j = numbersArray[0];
+      let k = numbersArray[1];
+      let soundFile = allSounds[j][k];
+      song.push(soundFile);
+    }
   }
   return song;
 }
-      
-const songButton = document.getElementById("songButton"); 
-songButton.addEventListener("click", playSong); 
+
+const songButton = document.getElementById("songButton");
+songButton.addEventListener("click", playSong);
 
 
 function playSong() {
   let song = makeSong();
   console.log(song.length, song)
   for (let index = 0; index < song.length; index++) {
-    setTimeout(function(){song[index].play()}, index * 500);
+    setTimeout(function () {
+      song[index].play()
+    }, index * 500);
   }
 }
 
@@ -134,9 +148,20 @@ saveButton.addEventListener("click", (e) => {
 //runs function that adds the extra animation/color buttons
 addAnimationButtons();
 
+//hides and shows sections of buttons
+function toggleMenu(e) {
+  const layer = e.target.classList[0]
+  console.log(e.target.classList.value)
+  e.target.classList.toggle("fa-plus-circle")
+  e.target.classList.toggle("fa-minus-circle")
+  const buttonSpan = document.querySelector(`span.${layer}`);
+  buttonSpan.classList.toggle("hidden");
+}
+
 //detects clicks on buttons and shows or hides lines
 section.addEventListener("click", (e) => {
   if (e.target.tagName == "BUTTON") {
+    if(e.target.className && e.target.className != "undefined") {songButton.classList.remove("hidden")}
     e.preventDefault();
     for (let i = 0; i < allLines.length; i++) {
       if (allLines[i].classList.contains(e.target.classList[0])) {
@@ -164,7 +189,7 @@ function addAnimationButtons() {
     let button = document.createElement("button");
     button.classList.add(animations[i].line);
     button.innerText = "¤";
-    let container = document.querySelector("." + animations[i].layer);
+    let container = document.querySelector("span." + animations[i].layer);
     let line = document.getElementById(animations[i].line);
     let animation = animations[i].animation;
     let color = animations[i].color;
@@ -236,20 +261,39 @@ function generateLink() {
     }
   }
   if (showingLines) {
-    if (window.location.pathname) {
-      link = `link to your creature: <a href = "${
+    if (animalName) {
+      if (window.location.pathname) {
+        link = `<div>Link to your creature (opens in new tab): <a href = "${
         window.location.origin + window.location.pathname
       }?a=${showingLines}&n=${animalName}&m=${savedAnimations}" target ="_blank">${
         window.location.origin + window.location.pathname
-      }?a=${showingLines}&n=${animalName}&m=${savedAnimations}</a>`;
+      }?a=${showingLines}&n=${animalName}&m=${savedAnimations}</a></div>`;
+      } else {
+        link = `<div>Link to your creature (opens in new tab):<br> <a href = "${window.location.origin}?a=${showingLines}&n=${animalName}&m=${savedAnimations}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}&m=${savedAnimations}</a></div>`;
+      }
     } else {
-      link = `link to your creature: <a href = "${window.location.origin}?a=${showingLines}&n=${animalName}&m=${savedAnimations}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}&m=${savedAnimations}</a>`;
+    link = `<div>Please name your creature.</div>`;
     }
   } else {
-    link = "you can't save an invisible animal";
+      link = `<div>Sorry, you can't save an invisible creature.</div>`;
   }
-  linkContainer.innerHTML = "";
-  linkContainer.insertAdjacentHTML("beforeend", link);
+
+  const modal = document.createElement("div");
+  modal.classList.add("modal");
+  const modalMessage = document.createElement("div");
+  const closeButton = document.createElement("i");
+  closeButton.classList.add("fas", "fa-times");
+  closeButton.addEventListener("click", closeModal)
+  modalMessage.appendChild(closeButton);
+  modal.appendChild(modalMessage);
+  // modalMessage.innerHTML = "";
+  modalMessage.insertAdjacentHTML("beforeend", link);
+  document.body.appendChild(modal);
+}
+
+function closeModal() {
+  let modal = document.querySelector(".modal");
+  document.body.removeChild(modal)
 }
 
 //gets the parameters for the saved lines
@@ -288,6 +332,7 @@ function addEffects() {
 //prints out saved animal from the url
 function printAnimal() {
   if (savedAnimal) {
+    songButton.classList.remove("hidden")
     for (savedLine in savedAnimal) {
       for (line in allLines) {
         if (
@@ -305,9 +350,9 @@ function printAnimal() {
     addEffects();
     const headline = `<h2>Someone drew you a creature called ${animalString.get(
       "n"
-    )}</h2><p><a href="javascript:void(0)" id="run">run away ${animalString.get(
+    )}</h2><span><a href="javascript:void(0)" id="run">run away ${animalString.get(
       "n"
-    )}, you are free now</a></p>`;
+    )}</a>, you are free now</span>`;
     document.querySelector("main").insertAdjacentHTML("afterbegin", headline);
     document.querySelector("title").textContent = animalString.get("n");
     document.getElementById("run").addEventListener("click", (e) => {
