@@ -99,7 +99,7 @@ function makeSoundArray() {
     let creatureSounds = [];
     for (let j = 0; j < lines.length; j++) {
             let sound = new Audio(`./sounds/${i}.${j}.mp3`);
-            sound.volume=0.6;
+            sound.volume=0.4;
             creatureSounds.push(sound);
     }
     allSounds.push(creatureSounds);
