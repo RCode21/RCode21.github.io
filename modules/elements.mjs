@@ -12,11 +12,11 @@ function makeButtons(section, layers) {
     menuButton.id = "accordion" + i;
     menuButton.setAttribute("aria-controls", "section" + i);
     if (i == 0) {
-      menuButton.classList.add(layers[i].id, "fas", "fa-minus");
+      menuButton.classList.add("fas", "fa-minus");
       menuButton.setAttribute("aria-expanded", "true");
     } //add css-class - same as id of the layer/animal
     else {
-      menuButton.classList.add(layers[i].id, "fas", "fa-plus");
+      menuButton.classList.add("fas", "fa-plus");
       menuButton.setAttribute("aria-expanded", "false");
     }
     menuButton.addEventListener("click", (e) => {
@@ -115,12 +115,12 @@ function makeDialog(link) {
   dialogMessage.insertAdjacentHTML("beforeend", link);
   document.body.appendChild(dialog);
   document.querySelector("main").setAttribute("aria-hidden", "true");
-  document.querySelector("aside").setAttribute("aria-hidden", "true");
+  document.querySelector(".buttonContainer").setAttribute("aria-hidden", "true");
 }
 
 function closeDialog() {
   let dialog = document.querySelector(".dialog");
   document.body.removeChild(dialog);
   document.querySelector("main").removeAttribute("aria-hidden");
-  document.querySelector("aside").removeAttribute("aria-hidden");
+  document.querySelector(".buttonContainer").removeAttribute("aria-hidden");
 }

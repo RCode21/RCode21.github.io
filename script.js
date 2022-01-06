@@ -49,7 +49,7 @@ const layers = document.querySelectorAll("g");
 //all the lines
 const allLines = document.querySelectorAll("g>*");
 //the section where the image is
-const section = document.querySelector("section");
+const section = document.querySelector(".buttonContainer");
 //the animal saved in the url-parameters
 let animalString = new URLSearchParams(window.location.search);
 //the sound on/off buttom
@@ -83,7 +83,7 @@ saveButton.addEventListener("click", (e) => {
 
 //detects clicks on buttons and shows or hides lines
 section.addEventListener("click", (e) => {
-  if (e.target.tagName == "BUTTON") {
+  if (e.target.tagName == "BUTTON" && !e.target.classList.contains("fas")) {
     if (e.target.className && e.target.className != "undefined") {
       songButton.classList.remove("hidden");
     }
