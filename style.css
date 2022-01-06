@@ -1,272 +1,302 @@
 /* a class that makes elements invisible */
 .hidden {
-    /* visibility: hidden; */
+  display: none;
+}
+
+button[aria-expanded='false'] + span {
     display: none;
 }
 
-#songButton {margin-top: 1em;}
+button[aria-expanded='true'] + span {
+    display: block;
+}
+
+#songButton {
+  margin-top: 1em;
+}
 
 html {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    margin: 0;
-    height: 100vh;
-    max-width: 100vw;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: 1fr;
-    background-color: rgb(214, 236, 195);
-    position: relative;
-    z-index: 0;
+  margin: 0;
+  height: 100vh;
+  max-width: 100vw;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr;
+  background-color: rgb(214, 236, 195);
+  position: relative;
+  z-index: 0;
+  font-family: sans-serif;
 }
 
 h1 {
-    margin: 0;
+  margin: 0;
 }
 
 input {
-    padding: 0.5em;
-    margin: 1em;
+  padding: 0.5em;
+  margin: 1em;
 }
 
 main {
-    grid-area: 1/1/2/2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: auto;
-    padding: 1em 2em 0 2em;
+  grid-area: 1/1/2/2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+  padding: 1em 2em 0 2em;
 }
 
 svg {
-    height: 80vh;
-    width: auto;
-    position: relative;
-    z-index: 1;
+  height: 80vh;
+  width: auto;
+  position: relative;
+  z-index: 1;
 }
 
 aside {
-    justify-self: center;
-    grid-area: 1/2/2/3;
-    display: flex;
-    /* flex-shrink: 0; */
-    align-items: center;
-    justify-content: flex-start;
-    padding: 3em 0 0 0;
-    flex-direction: column;
-    overflow-y: auto;
-    min-width: 15em;
-    max-width: 30vw;
-    width: 100%;
+  justify-self: center;
+  grid-area: 1/2/2/3;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 3em 0 0 0;
+  flex-direction: column;
+  overflow-y: auto;
+  min-width: 15em;
+  max-width: 30vw;
+  width: 100%;
 }
 
 button {
-    box-sizing: border-box;
-    padding: 1em;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    border-radius: 10%;
-    margin: 0.3em;
-    box-shadow: rgba(0, 0, 0, 0.5) inset 1px 1px 5px;
+  box-sizing: border-box;
+  padding: 1em;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 7px;
+  margin: 0.3em;
+  box-shadow: rgba(0, 0, 0, 0.5) inset 1px 1px 5px;
 }
 
-i {
-    margin-top: 0.3em;
-    font-size: x-large;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
-    color: lightgray;
+button.fas {
+  font-size: x-large;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  color: rgb(214, 236, 195);
+  border: 1px solid black;
+  border-radius: 50%;
+  padding: 0.3em;
+  box-shadow: none;
+  align-self: flex-start;
 }
 
-.modal {
-    position: absolute;
-    left: 0;
-    top: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    height: 100vh;
-    width: 100vw;
-    z-index: 2;
+button:focus,
+input:focus {
+  outline: orangered 5px auto;
 }
 
-.modal>div {
-    display: flex;
-    flex-direction: column;
-    padding: 2em;
-    align-items: center;
-    width: 50vw;
-    height: 50vh;
-    position: absolute;
-    vertical-align: center;
-    left: 25vw;
-    top: 25vh;
-    box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 40px;
-    border-radius: 20px;
-    overflow-wrap: break-word;
-    /* These are technically the same, but use both */
-    word-wrap: break-word;
-    -ms-word-break: break-all;
-    word-break: break-word;
-    background-color: rgb(214, 236, 195);
+.dialog {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  width: 100vw;
+  z-index: 2;
 }
 
-.modal>div>div {margin: auto; line-height: 2em;}
-.modal>div>i {align-self: flex-end; justify-self: flex-start; font-size: xx-large; margin: 0; display: inline; -webkit-text-stroke-width: 2px; cursor:pointer;}
+.dialog > p {
+  display: flex;
+  flex-direction: column;
+  padding: 2em;
+  align-items: center;
+  width: 50vw;
+  height: 50vh;
+  position: absolute;
+  vertical-align: center;
+  left: 25vw;
+  top: 25vh;
+  box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 40px;
+  border-radius: 20px;
+  overflow-wrap: break-word;
+  /* These are technically the same, but use both */
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-word;
+  background-color: rgb(214, 236, 195);
+}
 
-/*odd animals buttons */
-/* span:nth-child(odd)>button {
-    background-color: cornsilk
-} */
+.dialog > p > div {
+  margin: auto;
+  line-height: 2em;
+}
+.dialog > p > button {
+  align-self: flex-end;
+  justify-self: flex-start;
+  font-size: xx-large;
+  margin: 0;
+  display: inline;
+  -webkit-text-stroke-width: 2px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: lightgray;
+}
 
 /* pressed down buttons */
-.on {
-    box-sizing: border-box;
-    border: 1px solid black;
-    box-shadow: rgba(0, 0, 0, 0.8) inset -1px -1px 5px;
-    background-color: cornsilk;
+button[aria-pressed='true'] {
+  box-sizing: border-box;
+  border: 1px solid black;
+  box-shadow: rgba(0, 0, 0, 0.8) inset -1px -1px 5px;
+  background-color: cornsilk;
 }
 
 .buttonSection {
-    display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: auto 1fr;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: auto 1fr;
 }
 
-aside>* {
-    width: 100%;
+aside > * {
+  width: 100%;
 }
 
 /* animation for the spinning eye */
 .spin {
-    transform-origin: 50% 50%;
-    transform-box: fill-box;
-    animation: rotate 5s infinite linear;
-    -webkit-animation: rotate 5s infinite linear;
-    display: inline-block;
+  transform-origin: 50% 50%;
+  transform-box: fill-box;
+  animation: rotate 5s infinite linear;
+  -webkit-animation: rotate 5s infinite linear;
+  display: inline-block;
 }
 
 @keyframes rotate {
-    0% {
-        transform: rotate(0deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
 
-    100% {
-        transform: rotate(360deg);
-    }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @-webkit-keyframes rotate {
-    to {
-        -webkit-transform: rotate(360deg);
-    }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 /* animation for waving sloth */
 .wave {
-    transform-origin: 50% 50%;
-    transform-box: fill-box;
-    -webkit-animation: wave 12s infinite linear;
-    animation: wave 12s infinite linear;
+  transform-origin: 50% 50%;
+  transform-box: fill-box;
+  -webkit-animation: wave 12s infinite linear;
+  animation: wave 12s infinite linear;
 }
 
 @keyframes wave {
-    0% {
-        transform: rotate(0deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
 
-    15% {
-        transform: rotate(7deg);
-    }
+  15% {
+    transform: rotate(7deg);
+  }
 
-    65% {
-        transform: rotate(-10deg);
-    }
+  65% {
+    transform: rotate(-10deg);
+  }
 
-    100% {
-        transform: rotate(0deg);
-    }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 @-webkit-keyframes wave {
-    0% {
-        -webkit-transform: rotate(0deg);
-    }
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
 
-    20% {
-        -webkit-transform: rotate(30deg);
-    }
+  20% {
+    -webkit-transform: rotate(30deg);
+  }
 
-    70% {
-        -webkit-transform: rotate(-20deg);
-    }
+  70% {
+    -webkit-transform: rotate(-20deg);
+  }
 
-    100% {
-        -webkit-transform: rotate(0deg);
-    }
+  100% {
+    -webkit-transform: rotate(0deg);
+  }
 }
 
 .run {
-    -webkit-animation: jump 0.2s alternate infinite ease-in-out, moveRight 5s 1 linear forwards;
-    animation: jump 0.2s alternate infinite ease-in-out, moveRight 5s 1 linear forwards;
+  -webkit-animation: jump 0.2s alternate infinite ease-in-out,
+    moveRight 5s 1 linear forwards;
+  animation: jump 0.2s alternate infinite ease-in-out,
+    moveRight 5s 1 linear forwards;
 }
 
 @-webkit-keyframes jump {
-    to {
-        -webkit-transform: translatey(-20px);
-        transform: translatey(-20px);
-    }
+  to {
+    -webkit-transform: translatey(-20px);
+    transform: translatey(-20px);
+  }
 }
 
 @keyframes jump {
-    to {
-        -webkit-transform: translatey(-20px);
-        transform: translatey(-20px);
-    }
+  to {
+    -webkit-transform: translatey(-20px);
+    transform: translatey(-20px);
+  }
 }
 
 @-webkit-keyframes moveRight {
-    to {
-        -webkit-transform: translatex(-100%);
-        transform: translatex(-100%);
-    }
+  to {
+    -webkit-transform: translatex(-100%);
+    transform: translatex(-100%);
+  }
 }
 
 @keyframes moveRight {
-    to {
-        -webkit-transform: translatex(-100%);
-        transform: translatex(-100%);
-    }
+  to {
+    -webkit-transform: translatex(-100%);
+    transform: translatex(-100%);
+  }
 }
 
 @media only screen and (orientation: portrait) {
-    body {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr;
-    }
+  body {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
 
-    main {
-        grid-area: 1/1/2/2;
-        padding: 1em 0 0 0;
-    }
+  main {
+    grid-area: 1/1/2/2;
+    padding: 1em 0 0 0;
+  }
 
-    svg {
-        width: 85vw;
-        height: auto;
-    }
+  svg {
+    width: 85vw;
+    height: auto;
+  }
 
-    aside {
-        grid-area: 2/1/3/2;
-        padding: 1em;
-        overflow: auto;
-        max-width: 100vw;
-    }
+  aside {
+    grid-area: 2/1/3/2;
+    padding: 1em;
+    overflow: auto;
+    max-width: 100vw;
+  }
 
-    h2 {margin:0;}
+  h2 {
+    margin: 0;
+  }
 
-    .buttonSection {
-    }
-
-    .instruction {display:none}
+  .instruction {
+    display: none;
+  }
 }
