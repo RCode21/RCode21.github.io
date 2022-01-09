@@ -99,8 +99,8 @@ function addAnimationButtons(animations) {
 }
 
 function makeDialog(link) {
-  const dialog = document.createElement("div");
-  dialog.classList.add("dialog");
+  const dialog = document.createElement("dialog");
+  dialog.setAttribute("open", "");
   dialog.setAttribute("role", "dialog");
   dialog.setAttribute("aria-describedby", "dialogDescription");
   dialog.setAttribute("aria-modal", "true");
@@ -115,12 +115,12 @@ function makeDialog(link) {
   dialogMessage.insertAdjacentHTML("beforeend", link);
   document.body.appendChild(dialog);
   document.querySelector("main").setAttribute("aria-hidden", "true");
-  document.querySelector(".buttonContainer").setAttribute("aria-hidden", "true");
+  document.querySelector(".controls").setAttribute("aria-hidden", "true");
 }
 
 function closeDialog() {
-  let dialog = document.querySelector(".dialog");
+  let dialog = document.querySelector("dialog");
   document.body.removeChild(dialog);
   document.querySelector("main").removeAttribute("aria-hidden");
-  document.querySelector(".buttonContainer").removeAttribute("aria-hidden");
+  document.querySelector(".controls").removeAttribute("aria-hidden");
 }
