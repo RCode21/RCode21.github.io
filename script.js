@@ -146,19 +146,19 @@ function generateLink() {
   if (showingLines) {
     if (animalName) {
       if (window.location.pathname) {
-        link = `<div id = "dialogDescription">Link to your creature (opens in new tab): <a href = "${
+        link = `<div id = "dialogDescription">Link to your creation (opens in new tab): <a href = "${
           window.location.origin + window.location.pathname
         }?a=${showingLines}&n=${animalName}&m=${savedAnimations}" target ="_blank">${
           window.location.origin + window.location.pathname
         }?a=${showingLines}&n=${animalName}&m=${savedAnimations}</a></div>`;
       } else {
-        link = `<div id = "dialogDescription">Link to your creature (opens in new tab):<br> <a href = "${window.location.origin}?a=${showingLines}&n=${animalName}&m=${savedAnimations}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}&m=${savedAnimations}</a></div>`;
+        link = `<div id = "dialogDescription">Link to your creation (opens in new tab):<br> <a href = "${window.location.origin}?a=${showingLines}&n=${animalName}&m=${savedAnimations}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}&m=${savedAnimations}</a></div>`;
       }
     } else {
-      link = `<div id = "dialogDescription">Please name your creature.</div>`;
+      link = `<div id = "dialogDescription">Please name your creation.</div>`;
     }
   } else {
-    link = `<div id = "dialogDescription">Sorry, you can't save an invisible creature.</div>`;
+    link = `<div id = "dialogDescription">There is nothing to save yet.</div>`;
   }
   makeDialog(link);
 }
@@ -216,7 +216,7 @@ function printAnimal() {
       }
     }
     addEffects();
-    const headline = `<h2>Someone drew you a creature called ${animalString.get(
+    const headline = `<h2>Someone drew you a ${animalString.get(
       "n"
     )}</h2><span><a href="javascript:void(0)" id="run">run away ${animalString.get(
       "n"
