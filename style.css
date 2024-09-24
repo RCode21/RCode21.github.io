@@ -3,6 +3,8 @@
   display: none;
 }
 
+.invisible {visibility: hidden;}
+
 button[aria-expanded='false'] + span {
     display: none;
 }

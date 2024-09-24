@@ -68,6 +68,8 @@ const saveButton = document.getElementById("saveButton");
 makeButtons(section, layers);
 //add the extra animation/color buttons
 addAnimationButtons(animations);
+//class is added initially to prevent svg from showing up before each line is hidden
+document.querySelector("svg").classList.remove("invisible");
 
 //eventlisteners
 soundButton.addEventListener("click", () => {

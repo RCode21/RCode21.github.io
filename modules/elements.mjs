@@ -49,6 +49,7 @@ function toggleMenu(e) {
   e.target.classList.toggle("fa-minus");
 }
 
+//creates an array containing the alphabeth
 const alpha = Array.from(Array(26)).map((e, i) => i + 65);
 const alphabet = alpha.map((x) => String.fromCharCode(x));
 
