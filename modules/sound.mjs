@@ -11,6 +11,7 @@ function preloadSounds(volume, layers) {
     for (let j = 0; j < lines.length; j++) {
       let sound = new Audio(`./sounds/${i}.${j}.mp3`);
       sound.volume = volume;
+      creatureSounds.push(sound);
     }
     allSounds.push(creatureSounds);
   }
