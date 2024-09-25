@@ -1,5 +1,4 @@
-import { preloadSounds, playSong, controlSound } from "./modules/sound.mjs";
-
+import { preloadSounds, playSong } from "./modules/sound.mjs";
 import {
   makeButtons,
   addAnimationButtons,
@@ -39,11 +38,11 @@ let animations = [
   {
     colorAll: "rgba(60, 179, 113, 0.3)",
     layer: "layer3",
-  }
+  },
 ];
 
 //volume between 0-1
-let volume = 0.4;
+let volume = 0.5;
 //all the layers
 const layers = document.querySelectorAll("g");
 //all the lines
@@ -52,16 +51,17 @@ const allLines = document.querySelectorAll("g>*");
 const section = document.querySelector(".buttonContainer");
 //the animal saved in the url-parameters
 let animalString = new URLSearchParams(window.location.search);
-//the sound on/off buttom
-const soundButton = document.querySelector("#soundButton");
-//sound is initially on
-let sound = true;
 //all the sound files
-const allSounds = preloadSounds(volume, layers);
+let allSounds = preloadSounds(volume, layers);
 //the button that plays a creatures song
 const songButton = document.getElementById("songButton");
+//the volume control
+const volumeControl = document.getElementById("volumeControl");
+//the volume label
+const volumeLabel = document.getElementById("volumeLabel");
 //the button for saving a creature
 const saveButton = document.getElementById("saveButton");
+const imageContainer = document.getElementById("imageContainer");
 
 //run some functions on page load
 //add all buttons
@@ -69,15 +69,21 @@ makeButtons(section, layers);
 //add the extra animation/color buttons
 addAnimationButtons(animations);
 //class is added initially to prevent svg from showing up before each line is hidden
-document.querySelector("svg").classList.remove("invisible");
+imageContainer.classList.remove("invisible");
+//set the label for the volume
+volumeLabel.innerText = "Volume: " + volume * 10;
 
 //eventlisteners
-soundButton.addEventListener("click", () => {
-  sound = controlSound(sound, soundButton);
+volumeControl.addEventListener("input", () => {
+  volume = volumeControl.value / 10;
+  allSounds = preloadSounds(volume, layers);
+  volumeLabel.innerText = "Volume: " + volume * 10;
 });
+
 songButton.addEventListener("click", () => {
   playSong(allLines, allSounds);
 });
+
 saveButton.addEventListener("click", (e) => {
   e.preventDefault();
   generateLink();
@@ -93,7 +99,7 @@ section.addEventListener("click", (e) => {
     for (let i = 0; i < allLines.length; i++) {
       if (allLines[i].classList.contains(e.target.classList[0])) {
         allLines[i].classList.toggle("hidden");
-        if (sound && !allLines[i].classList.contains("hidden")) {
+        if (!allLines[i].classList.contains("hidden")) {
           let buttonClass = e.target.classList.value;
           let numbersArray = [];
           if (buttonClass) {

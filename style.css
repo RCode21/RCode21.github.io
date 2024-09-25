@@ -17,6 +17,8 @@ button[aria-expanded='true'] + span {
   margin-top: 1em;
 }
 
+#volumeLabel {vertical-align: super;}
+
 html {
   margin: 0;
   padding: 0;

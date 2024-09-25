@@ -1,17 +1,6 @@
 //this module contains everything that has to do with sound
 
-export { preloadSounds, playSong, controlSound};
-
-//the function connected to the sound on/off button
-function controlSound(sound, soundButton){
-    if (sound) {
-      sound = false;
-      soundButton.innerText = "sound is off";
-    } else {
-      sound = true;
-      soundButton.innerText = "sound is on";
-    }
-return sound}
+export { preloadSounds, playSong };
 
 //preload sounds
 function preloadSounds(volume, layers) {
@@ -22,7 +11,6 @@ function preloadSounds(volume, layers) {
     for (let j = 0; j < lines.length; j++) {
       let sound = new Audio(`./sounds/${i}.${j}.mp3`);
       sound.volume = volume;
-      creatureSounds.push(sound);
     }
     allSounds.push(creatureSounds);
   }
