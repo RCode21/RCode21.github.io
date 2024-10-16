@@ -154,13 +154,22 @@ function generateLink() {
   if (showingLines) {
     if (animalName) {
       if (window.location.pathname) {
-        link = `<div id = "dialogDescription">Link to your creation (opens in new tab): <a href = "${
+        link = `<div id = "dialogDescription">
+        Send us your creature at
+          &#115;&#105;&#99;&#107;&#110;&#101;&#115;&#115;&#97;&#102;&#102;&#105;&#110;&#105;&#116;&#121;&#64;&#115;&#121;&#115;&#116;&#101;&#109;&#108;&#105;&#46;&#111;&#114;&#103;<br>
+        Link to your creation (opens in new tab): <a href = "${
           window.location.origin + window.location.pathname
         }?a=${showingLines}&n=${animalName}&m=${savedAnimations}" target ="_blank">${
           window.location.origin + window.location.pathname
-        }?a=${showingLines}&n=${animalName}&m=${savedAnimations}</a></div>`;
+        }?a=${showingLines}&n=${animalName}&m=${savedAnimations}</a><br>
+        <a href = "http://soma-archives.net/weaving-2.html">Go to soma archives</a>
+        </div>`;
       } else {
-        link = `<div id = "dialogDescription">Link to your creation (opens in new tab):<br> <a href = "${window.location.origin}?a=${showingLines}&n=${animalName}&m=${savedAnimations}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}&m=${savedAnimations}</a></div>`;
+        link = `<div id = "dialogDescription"><br />Send us your creature at
+          &#115;&#105;&#99;&#107;&#110;&#101;&#115;&#115;&#97;&#102;&#102;&#105;&#110;&#105;&#116;&#121;&#64;&#115;&#121;&#115;&#116;&#101;&#109;&#108;&#105;&#46;&#111;&#114;&#103;<br>
+          Link to your creation (opens in new tab):<br> <a href = "${window.location.origin}?a=${showingLines}&n=${animalName}&m=${savedAnimations}" target ="_blank">${window.location.origin}?a=${showingLines}&n=${animalName}&m=${savedAnimations}</a><br>
+          <a href = "http://soma-archives.net/weaving-2.html">Go to soma archives</a>
+          </div>`;
       }
     } else {
       link = `<div id = "dialogDescription">Please name your creation.</div>`;
