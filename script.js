@@ -91,8 +91,8 @@ saveButton.addEventListener("click", (e) => {
 
 //detects clicks on buttons and shows or hides lines
 section.addEventListener("click", (e) => {
-  if (e.target.tagName == "BUTTON" && !e.target.classList.contains("fas")) {
-    if (e.target.className && e.target.className != "undefined") {
+  if (e.target.tagName === "BUTTON" && !e.target.classList.contains("fas")) {
+    if (e.target.className && e.target.className !== "undefined") {
       songButton.classList.remove("hidden");
     }
     e.preventDefault();

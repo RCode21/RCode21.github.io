@@ -11,7 +11,7 @@ function makeButtons(section, layers) {
     let menuButton = document.createElement("button");
     menuButton.id = "accordion" + i;
     menuButton.setAttribute("aria-controls", "section" + i);
-    if (i == 0) {
+    if (i === 0) {
       menuButton.classList.add("fas", "fa-minus");
       menuButton.setAttribute("aria-expanded", "true");
     } //add css-class - same as id of the layer/animal
@@ -76,7 +76,7 @@ function addAnimationButtons(animations) {
       button.addEventListener("click", (e) => {
         e.preventDefault();
         let currentColor = line.style.fill;
-        if (currentColor != color) {
+        if (currentColor !== color) {
           line.style.fill = color;
         } else {
           line.style.fill = "none";
@@ -87,7 +87,7 @@ function addAnimationButtons(animations) {
       button.addEventListener("click", (e) => {
         e.preventDefault();
         for (let i = 0; i < animal.length; i++) {
-          if (animal[i].style.fill != colorAll) {
+          if (animal[i].style.fill !== colorAll) {
             animal[i].style.fill = colorAll;
           } else {
             animal[i].style.fill = "none";
